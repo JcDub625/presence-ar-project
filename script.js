@@ -6,18 +6,40 @@ const start = async () => {
 
   const { renderer, scene, camera } = mindarThree;
 
-  const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
-  scene.add(light);
+  // Create video element
+  const video = document.createElement("video");
+  video.src = "animation.mp4";   // Put your video file in same directory
+  video.loop = true;
+  video.muted = true;
+  video.playsInline = true;
+  video.crossOrigin = "anonymous";
 
-  // Target index 0 = first comic page
-  const anchor = mindarThree.addAnchor(0);
+  // Create Three.js video texture
+  const videoTexture = new THREE.VideoTexture(video);
+  videoTexture.minFilter = THREE.LinearFilter;
+  videoTexture.magFilter = THREE.LinearFilter;
+  videoTexture.format = THREE.RGBAFormat;
 
+  // Create plane
   const geometry = new THREE.PlaneGeometry(1, 1);
-  const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const plane = new THREE.Mesh(geometry, material);
+  const material = new THREE.MeshBasicMaterial({ 
+    map: videoTexture,
+    transparent: true
+  });
 
-  plane.position.y = 0.5;
+  const plane = new THREE.Mesh(geometry, material);
+  plane.position.y = 0;
   anchor.group.add(plane);
+
+  // Play video when target found
+  anchor.onTargetFound = () => {
+    video.play();
+  };
+
+  anchor.onTargetLost = () => {
+    video.pause();
+  };
+
 
   await mindarThree.start();
 
