@@ -1,5 +1,5 @@
 const start = async () => {
-  const mindarThree = new window.MINDAR.IMAGE.MindARThree({
+  const mindarThree = new window.MINDAR.MindARThree({
     container: document.body,
     imageTargetSrc: "./targets.mind",
   });
