@@ -8,7 +8,7 @@ const start = async () => {
 
   // Create video element
   const video = document.createElement("video");
-  video.src = "animation.mp4";   // Put your video file in same directory
+  video.src = "DemoVideo.mp4";
   video.loop = true;
   video.muted = true;
   video.playsInline = true;
