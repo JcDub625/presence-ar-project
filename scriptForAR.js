@@ -1,7 +1,10 @@
+import * as THREE from "three";
+import { MindARThree } from "mindar-image-three";
+
 const start = async () => {
-  const mindarThree = new window.MINDAR.MindARThree({
+  const mindarThree = new MindARThree({
     container: document.body,
-    imageTargetSrc: "./targets.mind",
+    imageTargetSrc: "./targets.mind"
   });
 
   const { renderer, scene, camera } = mindarThree;
@@ -11,22 +14,15 @@ const start = async () => {
   const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
   scene.add(light);
 
-  // Create video
   const video = document.createElement("video");
   video.src = "./DemoVideo.mp4";
   video.loop = true;
   video.muted = true;
-  video.setAttribute("playsinline", "");
-  video.crossOrigin = "anonymous";
+  video.playsInline = true;
 
   const videoTexture = new THREE.VideoTexture(video);
-
   const geometry = new THREE.PlaneGeometry(1, 1);
-  const material = new THREE.MeshBasicMaterial({
-    map: videoTexture,
-    transparent: true
-  });
-
+  const material = new THREE.MeshBasicMaterial({ map: videoTexture, transparent: true });
   const plane = new THREE.Mesh(geometry, material);
   anchor.group.add(plane);
 
@@ -35,9 +31,7 @@ const start = async () => {
 
   await mindarThree.start();
 
-  renderer.setAnimationLoop(() => {
-    renderer.render(scene, camera);
-  });
+  renderer.setAnimationLoop(() => renderer.render(scene, camera));
 };
 
 start();
