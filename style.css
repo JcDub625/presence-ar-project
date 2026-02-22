@@ -10,3 +10,12 @@ html, body {
   height: 100vh;
   position: relative;
 }
+
+#ar-container video {
+  z-index: 0 !important;
+  object-fit: cover;
+}
+
+#ar-container canvas {
+  z-index: 1 !important;
+}
