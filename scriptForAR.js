@@ -3,7 +3,7 @@ import { MindARThree } from "mindar-image-three";
 
 const start = async () => {
   const mindarThree = new MindARThree({
-    container: document.body,
+    container: document.querySelector("#ar-container"),
     imageTargetSrc: "./targets.mind"
   });
 
