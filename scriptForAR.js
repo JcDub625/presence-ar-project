@@ -21,6 +21,7 @@ const start = async () => {
   video.playsInline = true;
 
   const videoTexture = new THREE.VideoTexture(video);
+  videoTexture.colorSpace = THREE.SRGBColorSpace;
 
   const imageAspectRatio = 651 / 1024;
   const geometry = new THREE.PlaneGeometry(1, 1 / imageAspectRatio);
