@@ -21,7 +21,10 @@ const start = async () => {
   video.playsInline = true;
 
   const videoTexture = new THREE.VideoTexture(video);
-  const geometry = new THREE.PlaneGeometry(1, 1);
+
+  const imageAspectRatio = 651 / 1024;
+  const geometry = new THREE.PlaneGeometry(1, 1 / imageAspectRatio);
+
   const material = new THREE.MeshBasicMaterial({ map: videoTexture, transparent: true });
   const plane = new THREE.Mesh(geometry, material);
   anchor.group.add(plane);
