@@ -8,6 +8,7 @@ const start = async () => {
   });
 
   const { renderer, scene, camera } = mindarThree;
+  renderer.toneMapping = THREE.NoToneMapping;
 
   const anchor = mindarThree.addAnchor(0);
 
