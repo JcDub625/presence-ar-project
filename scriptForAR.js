@@ -25,7 +25,41 @@ const targets = [
   { index: 19, videoSrc: "./videos/Presence_p63.mp4" }
 ];
 
+const loadingEl = document.createElement("div");
+loadingEl.style.cssText = "position:fixed;inset:0;background:black;color:white;display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:1.2rem;z-index:20;";
+loadingEl.textContent = "Loading animations... (0/" + targets.length + ")";
+
+let loaded = 0;
+
+const preloadVideo = (src) => {
+  return new Promise((resolve) => {
+    const video = document.createElement("video");
+    video.src = src;
+    video.loop = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.preload = "auto";
+    video.load();
+    const done = () => {
+      loaded++;
+      loadingEl.textContent = `Loading animations... (${loaded}/${targets.length})`;
+      resolve(video);
+    };
+    video.addEventListener("canplaythrough", done, { once: true });
+    setTimeout(done, 20000);
+  });
+};
+
 const start = async () => {
+  document.body.appendChild(loadingEl);
+
+  // Preload all videos first
+  const preloadedVideos = await Promise.all(
+    targets.map(t => preloadVideo(t.videoSrc))
+  );
+
+  loadingEl.textContent = "Starting camera...";
+
   const mindarThree = new MindARThree({
     container: document.querySelector("#ar-container"),
     imageTargetSrc: "./targets.mind"
@@ -34,21 +68,14 @@ const start = async () => {
   const { renderer, scene, camera } = mindarThree;
   renderer.toneMapping = THREE.NoToneMapping;
 
-  //const anchor = mindarThree.addAnchor(0);
-
   const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
   scene.add(light);
 
-  const imageAspectRatio = 651 / 1024; // adjust if your pages differ
+  const imageAspectRatio = 651 / 1024;
 
-  for (const target of targets) {
+  targets.forEach((target, i) => {
     const anchor = mindarThree.addAnchor(target.index);
-
-    const video = document.createElement("video");
-    video.src = target.videoSrc;
-    video.loop = true;
-    video.muted = true;
-    video.playsInline = true;
+    const video = preloadedVideos[i];
 
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.colorSpace = THREE.SRGBColorSpace;
@@ -60,9 +87,10 @@ const start = async () => {
 
     anchor.onTargetFound = () => video.play();
     anchor.onTargetLost = () => video.pause();
-  }
+  });
 
   await mindarThree.start();
+  loadingEl.remove();
   renderer.setAnimationLoop(() => renderer.render(scene, camera));
 };
 
