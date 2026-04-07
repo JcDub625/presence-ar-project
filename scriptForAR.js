@@ -66,4 +66,7 @@ const start = async () => {
   renderer.setAnimationLoop(() => renderer.render(scene, camera));
 };
 
-start();
+document.getElementById("start-btn").addEventListener("click", () => {
+  document.getElementById("start-screen").style.display = "none";
+  start();
+});

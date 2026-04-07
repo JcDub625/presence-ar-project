@@ -19,3 +19,22 @@ html, body {
 #ar-container canvas {
   z-index: 1 !important;
 }
+
+#start-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#start-screen button {
+  padding: 1rem 2rem;
+  font-size: 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: white;
+  cursor: pointer;
+}
