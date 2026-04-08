@@ -102,7 +102,10 @@ const start = async () => {
     const plane = new THREE.Mesh(geometry, material);
     anchor.group.add(plane);
 
-    anchor.onTargetFound = () => video.play();
+    anchor.onTargetFound = () => {
+      console.log(`[TARGET FOUND] index ${target.index} | video readyState: ${video.readyState} | paused: ${video.paused}`);
+      video.play().catch(err => console.error(`[TARGET PLAY FAILED]`, err));
+    };
     anchor.onTargetLost = () => video.pause();
   });
 
