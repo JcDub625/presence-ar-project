@@ -1,28 +1,29 @@
 import * as THREE from "three";
 import { MindARThree } from "mindar-image-three";
 
-// Map each target index to its video file
+const baseUrl = "https://pub-6af8e8ef5f034d8cac96e6e40fcb727b.r2.dev";
+
 const targets = [
-  { index: 0, videoSrc: "./videos/Presence_p1.mp4" },
-  { index: 1, videoSrc: "./videos/Presence_p6.mp4" },
-  { index: 2, videoSrc: "./videos/Presence_p7.mp4" },
-  { index: 3, videoSrc: "./videos/Presence_p8.mp4" },
-  { index: 4, videoSrc: "./videos/Presence_p28.mp4" },
-  { index: 5, videoSrc: "./videos/Presence_p29.mp4" },
-  { index: 6, videoSrc: "./videos/Presence_p30.mp4" },
-  { index: 7, videoSrc: "./videos/Presence_p31.mp4" },
-  { index: 8, videoSrc: "./videos/Presence_p34.mp4" },
-  { index: 9, videoSrc: "./videos/Presence_p36.mp4" },
-  { index: 10, videoSrc: "./videos/Presence_p37.mp4" },
-  { index: 11, videoSrc: "./videos/Presence_p38.mp4" },
-  { index: 12, videoSrc: "./videos/Presence_p39.mp4" },
-  { index: 13, videoSrc: "./videos/Presence_p43.mp4" },
-  { index: 14, videoSrc: "./videos/Presence_p44.mp4" },
-  { index: 15, videoSrc: "./videos/Presence_p52.mp4" },
-  { index: 16, videoSrc: "./videos/Presence_p53.mp4" },
-  { index: 17, videoSrc: "./videos/Presence_p55.mp4" },
-  { index: 18, videoSrc: "./videos/Presence_p58.mp4" },
-  { index: 19, videoSrc: "./videos/Presence_p63.mp4" }
+  { index: 0, videoSrc: `${baseUrl}/Presence_p1.mp4` },
+  { index: 1, videoSrc: `${baseUrl}/Presence_p6.mp4` },
+  { index: 2, videoSrc: `${baseUrl}/Presence_p7.mp4` },
+  { index: 3, videoSrc: `${baseUrl}/Presence_p8.mp4` },
+  { index: 4, videoSrc: `${baseUrl}/Presence_p28.mp4` },
+  { index: 5, videoSrc: `${baseUrl}/Presence_p29.mp4` },
+  { index: 6, videoSrc: `${baseUrl}/Presence_p30.mp4` },
+  { index: 7, videoSrc: `${baseUrl}/Presence_p31.mp4` },
+  { index: 8, videoSrc: `${baseUrl}/Presence_p34.mp4` },
+  { index: 9, videoSrc: `${baseUrl}/Presence_p36.mp4` },
+  { index: 10, videoSrc: `${baseUrl}/Presence_p37.mp4` },
+  { index: 11, videoSrc: `${baseUrl}/Presence_p38.mp4` },
+  { index: 12, videoSrc: `${baseUrl}/Presence_p39.mp4` },
+  { index: 13, videoSrc: `${baseUrl}/Presence_p43.mp4` },
+  { index: 14, videoSrc: `${baseUrl}/Presence_p44.mp4` },
+  { index: 15, videoSrc: `${baseUrl}/Presence_p52.mp4` },
+  { index: 16, videoSrc: `${baseUrl}/Presence_p53.mp4` },
+  { index: 17, videoSrc: `${baseUrl}/Presence_p55.mp4` },
+  { index: 18, videoSrc: `${baseUrl}/Presence_p58.mp4` },
+  { index: 19, videoSrc: `${baseUrl}/Presence_p63.mp4` }
 ];
 
 const loadingEl = document.createElement("div");
