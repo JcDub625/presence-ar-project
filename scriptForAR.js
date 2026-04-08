@@ -42,14 +42,26 @@ const preloadVideo = (src) => {
     video.playsInline = true;
     video.preload = "auto";
     video.load();
-    video.play().then(() => video.pause()).catch(() => {});
+
+    video.play().then(() => {
+      console.log(`[PLAY OK] ${src}`);
+      console.log(`[VIDEO STATE] readyState: ${video.readyState}, videoWidth: ${video.videoWidth}, videoHeight: ${video.videoHeight}`);
+      video.pause();
+    }).catch(err => {
+      console.error(`[PLAY FAILED] ${src}`, err);
+    });
+
     const done = () => {
       loaded++;
       loadingEl.textContent = `Loading animations... (${loaded}/${targets.length})`;
+      console.log(`[LOADED] ${src} | readyState: ${video.readyState} | w: ${video.videoWidth} h: ${video.videoHeight}`);
       resolve(video);
     };
     video.addEventListener("canplaythrough", done, { once: true });
-    setTimeout(done, 20000);
+    setTimeout(() => {
+      console.warn(`[TIMEOUT] ${src} | readyState: ${video.readyState}`);
+      done();
+    }, 20000);
   });
 };
 
