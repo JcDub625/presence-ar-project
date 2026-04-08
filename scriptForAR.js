@@ -36,11 +36,13 @@ const preloadVideo = (src) => {
   return new Promise((resolve) => {
     const video = document.createElement("video");
     video.src = src;
+    video.crossOrigin = "anonymous";
     video.loop = true;
     video.muted = true;
     video.playsInline = true;
     video.preload = "auto";
     video.load();
+    video.play().then(() => video.pause()).catch(() => {});
     const done = () => {
       loaded++;
       loadingEl.textContent = `Loading animations... (${loaded}/${targets.length})`;
@@ -51,10 +53,11 @@ const preloadVideo = (src) => {
   });
 };
 
+const videoTextures = [];
+
 const start = async () => {
   document.body.appendChild(loadingEl);
 
-  // Preload all videos first
   const preloadedVideos = await Promise.all(
     targets.map(t => preloadVideo(t.videoSrc))
   );
@@ -80,6 +83,7 @@ const start = async () => {
 
     const videoTexture = new THREE.VideoTexture(video);
     videoTexture.colorSpace = THREE.SRGBColorSpace;
+    videoTextures.push(videoTexture);
 
     const geometry = new THREE.PlaneGeometry(1, 1 / imageAspectRatio);
     const material = new THREE.MeshBasicMaterial({ map: videoTexture, transparent: true });
@@ -92,7 +96,14 @@ const start = async () => {
 
   await mindarThree.start();
   loadingEl.remove();
-  renderer.setAnimationLoop(() => renderer.render(scene, camera));
+
+  renderer.setAnimationLoop(() => {
+    // Tell Three.js to push fresh video frames to the GPU each tick
+    videoTextures.forEach(t => {
+      if (!t.image.paused) t.needsUpdate = true;
+    });
+    renderer.render(scene, camera);
+  });
 };
 
 document.getElementById("start-btn").addEventListener("click", () => {
